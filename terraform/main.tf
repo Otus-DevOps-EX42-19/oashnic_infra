@@ -1,21 +1,21 @@
 terraform {
   # Версия terraform
-  required_version = "0.11.11"
+  required_version = "0.12.6"
 }
 
 provider "google" {
   # Версия провайдера
-  version = "2.0.0"
+  version = "2.5.1"
 
   # ID проекта
-  project = "${var.project}"
-  region  = "${var.region}"
+  project = var.project
+  region  = var.region
 }
 
 resource "google_compute_instance" "app" {
   name         = "reddit-app"
   machine_type = "g1-small"
-  zone         = "${var.zone}"
+  zone         = var.zone
   tags         = ["reddit-app"]
 
   # определение загрузочного диска
@@ -31,21 +31,23 @@ resource "google_compute_instance" "app" {
     network = "default"
 
     # использовать ephemeral IP для доступа из Интернет
-    access_config {}
+    access_config {
+    }
   }
 
-  metadata {
+  metadata = {
     # путь до публичного ключа
     ssh-keys = "appuser:${file(var.public_key_path)} appuser1:${file(var.public_key_path_2)}"
   }
 
   connection {
+    host  = self.network_interface[0].access_config[0].nat_ip
     type  = "ssh"
     user  = "appuser"
     agent = false
 
     # путь до приватного ключа
-    private_key = "${file(var.private_key_path)}"
+    private_key = file(var.private_key_path)
   }
 
   # Провижины

@@ -1,35 +1,36 @@
-variable project {
+variable "project" {
   description = "ID project"
 }
 
-variable region {
+variable "region" {
   description = "Region"
 
   # Значение по умолчанию
   default = "europe-west1"
 }
 
-variable zone {
+variable "zone" {
   description = "Zone"
 
   # Значение по умолчанию
   default = "europe-west1-b"
 }
 
-variable public_key_path {
+variable "public_key_path" {
   # Описание переменной
   description = "public key appuser"
 }
 
-variable public_key_path_2 {
+variable "public_key_path_2" {
   # Описание переменной
   description = "public key appuser1"
 }
 
-variable disk_image {
+variable "disk_image" {
   description = "Disk image"
 }
 
-variable private_key_path {
+variable "private_key_path" {
   description = "~/.ssh/appuser"
 }
+
