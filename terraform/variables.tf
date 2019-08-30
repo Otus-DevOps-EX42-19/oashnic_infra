@@ -18,7 +18,12 @@ variable zone {
 
 variable public_key_path {
   # Описание переменной
-  description = "~/.ssh/appuser.pub"
+  description = "public key appuser"
+}
+
+variable public_key_path_2 {
+  # Описание переменной
+  description = "public key appuser1"
 }
 
 variable disk_image {
