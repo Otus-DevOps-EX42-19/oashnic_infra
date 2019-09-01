@@ -3,3 +3,4 @@ public_key_path = "~/.ssh/appuser.pub"
 public_key_path_2 = "~/.ssh/appuser1.pub
 private_key_path = "~/.ssh/appuser"
 disk_image = "reddit-base"
+count_node = "3"

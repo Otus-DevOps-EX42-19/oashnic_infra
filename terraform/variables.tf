@@ -34,3 +34,7 @@ variable "private_key_path" {
   description = "~/.ssh/appuser"
 }
 
+variable "count_node" {
+  description = "Count node reddit"
+  default = "1"
+}
