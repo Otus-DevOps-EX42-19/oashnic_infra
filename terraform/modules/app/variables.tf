@@ -13,3 +13,11 @@ variable "app_disk_image" {
 variable "public_key_path" {
   description = "public key appuser"
 }
+
+variable "private_key_path" {
+  description = "private key appuser"
+}
+
+variable "db_url" {
+  description = "mongodb url"
+}

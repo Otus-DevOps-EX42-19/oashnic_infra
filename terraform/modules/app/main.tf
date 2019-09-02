@@ -15,7 +15,38 @@ resource "google_compute_instance" "app" {
   metadata = {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
-}
+
+  connection {
+   host  = self.network_interface[0].access_config[0].nat_ip
+   type  = "ssh"
+   user  = "appuser"
+   agent = false
+
+   # путь до приватного ключа
+   private_key = file(var.private_key_path)
+  }
+
+   # Деплой приложения
+
+   # systemd
+   provisioner "file" {
+    source      = "${path.module}/files/puma.service"
+    destination = "/tmp/puma.service"
+   }
+
+   provisioner "file" {
+     source = "${path.module}/files/deploy.sh"
+     destination = "/tmp/deploy.sh"
+   }
+
+   # скрипт деплоя
+   provisioner "remote-exec" {
+     inline = [ "echo 'export DATABASE_URL=${var.db_url}' > /home/appuser/.bash_profile",
+    "chown appuser:appuser /home/appuser/.bash_profile",
+    "chmod +x /tmp/deploy.sh",
+    "/tmp/deploy.sh"]
+   }
+ }
 
 resource "google_compute_address" "app_ip" {
   name = "reddit-app-ip"
@@ -31,19 +62,6 @@ resource "google_compute_firewall" "firewall_puma" {
   allow {
     protocol = "tcp"
     ports    = ["9292"]
-  }
-
-  # Деплой приложения
-
-  # systemd
-  provisioner "file" {
-   source      = "files/puma.service"
-   destination = "/tmp/puma.service"
-  }
-
-  # скрипт деплоя
-  provisioner "remote-exec" {
-    script = "files/deploy.sh"
   }
 
   # Каким адресам разрешаем доступ
