@@ -1,6 +1,10 @@
 terraform {
   # Версия terraform
   required_version = "0.12.6"
+  backend "gcs" {
+    bucket = "storage-bucket-oashnic"
+    prefix = "prod"
+  }
 }
 
 provider "google" {
