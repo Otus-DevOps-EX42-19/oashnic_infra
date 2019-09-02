@@ -33,6 +33,19 @@ resource "google_compute_firewall" "firewall_puma" {
     ports    = ["9292"]
   }
 
+  # Деплой приложения
+
+  # systemd
+  provisioner "file" {
+   source      = "files/puma.service"
+   destination = "/tmp/puma.service"
+  }
+
+  # скрипт деплоя
+  provisioner "deploy" {
+    script = "files/deploy.sh"
+  }
+
   # Каким адресам разрешаем доступ
   source_ranges = ["0.0.0.0/0"]
 
