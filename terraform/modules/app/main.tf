@@ -42,7 +42,7 @@ resource "google_compute_firewall" "firewall_puma" {
   }
 
   # скрипт деплоя
-  provisioner "deploy" {
+  provisioner "remote-exec" {
     script = "files/deploy.sh"
   }
 
