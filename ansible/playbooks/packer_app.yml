@@ -1,0 +1,6 @@
+- name: Install App
+  hosts: all
+  become: true
+
+  roles:
+    - app
